@@ -1,0 +1,22 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Krew, pot i piksele. Chwalebne i niepokojące opowieści o tym, jak robi się gry ",
+            "url" : "https://www.empik.com/krew-pot-i-piksele-jak-powstaja-gry-wideo-schreier-jason,p1203623595,ksiazka-p",
+            "prize" : 38.49
+        },
+        {
+            "id": 2,
+            "name": "Domain-Driven Design",
+            "url" : "https://helion.pl/ksiazki/domain-driven-design-zapanuj-nad-zlozonym-systemem-informatycznym-eric-evans,domdri.htm",
+            "prize" : 20.99
+        },
+        {
+            "id": 3,
+            "name": "Człowiek vs Komputer",
+            "url" : "https://gynvael.coldwind.pl/?id=712",
+            "prize" : 15.15
+        }
+    ]
+}
