@@ -14,9 +14,13 @@
   "dependencies": {
     "@types/express": "^4.17.3",
     "@types/mocha": "^7.0.2",
+    "@types/mysql": "^2.15.9",
     "body-parser": "^1.4.3",
     "express": "^4.4.5",
+    "express-validator": "^6.4.0",
+    "mysql": "^2.18.1",
     "typescript": "^3.8.3",
+    "underscore": "^1.9.2",
     "vue": "^2.0.1",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.1.6"
