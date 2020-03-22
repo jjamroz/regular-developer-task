@@ -1,6 +1,7 @@
-import { IDatabaseProvider } from '../../server/database';
+import { IDatabaseProvider, DatabaseProvider } from '../../server/database';
+import * as mysql from 'mysql';
 
-export class MockDatabaseProvider {
+export class MockDatabaseProvider implements IDatabaseProvider {
   public database: any = {};
 
   constructor(database: Object = {}) {
@@ -10,6 +11,30 @@ export class MockDatabaseProvider {
   public get(table: string): Promise<Object> {
     return new Promise(resolve => {
       return resolve(this.database[table] || null);
+    });
+  }
+
+  public getById(table: string, id: number): Promise<Object> {
+    return new Promise(resolve => {
+      return resolve(this.database[table][0] || null);
+    });
+  }
+
+  public addItem(table: string): Promise<Object> {
+    return new Promise(resolve => {
+      return resolve(this.database[table][0] || null);
+    });
+  }
+
+  public updateItem(table: string, id: number, item: Object): Promise<Object> {
+    return new Promise(resolve => {
+      return resolve(this.database[table][0] || null);
+    });
+  }
+
+  public deleteById(table: string): Promise<boolean> {
+    return new Promise(resolve => {
+      return resolve(true);
     });
   }
 }

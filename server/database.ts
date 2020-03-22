@@ -1,12 +1,13 @@
 import * as mysql from 'mysql';
 import * as _ from 'underscore';
+import { ProductBody } from './validators/ProductValidator';
 
 export interface IDatabaseProvider {
   get(table: string): Promise<Object>;
-  getById(table: string, id: any): Promise<Object>;
-  deleteById(table: string, id: any): Promise<boolean>;
+  getById(table: string, id: number): Promise<Object>;
+  deleteById(table: string, id: number): Promise<boolean>;
   addItem(table: string, item: Object): Promise<Object>;
-  updateItem(table: string, id: any, item: Object): Promise<Object>;
+  updateItem(table: string, id: number, item: Object): Promise<Object>;
 }
 
 export class DatabaseProvider implements IDatabaseProvider {
@@ -88,7 +89,6 @@ export class DatabaseProvider implements IDatabaseProvider {
       .join(', ');
 
     let query = `UPDATE ${table} SET ${setStaments} WHERE id = ${id}`;
-    console.log(query);
 
     return new Promise((resolve, reject) => {
       this.connection.query(query, (error, results) => {

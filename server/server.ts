@@ -1,9 +1,9 @@
 import * as express from 'express';
 import { ProductsController } from './controllers/ProductsController';
-import { Validator } from './validators/Validator';
+import { ProductValidator as Validator } from './validators/ProductValidator';
 
-var bodyParser = require('body-parser');
-var app = express();
+const bodyParser = require('body-parser');
+const app = express();
 
 app.set('port', process.env.PORT || 3000);
 
