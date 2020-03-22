@@ -3,7 +3,7 @@
     <h1>Products</h1>
     <div>
       <button v-on:click="openModalAdd()">Open Modal</button>
-      <Modal :modalOpen="modalOpen"></Modal>
+      <Modal :modalOpen="modalOpen" :currentItem="currentItem"></Modal>
     </div>
 
     <table class="table table-hover">
@@ -56,14 +56,13 @@ export default {
   data() {
     return {
       modalOpen: false,
-      currentItem: { name: "", url: "", price: null },
+      currentItem: null,
       items: []
     };
   },
 
   created: function() {
     this.fetchProductData();
-
     this.currentItem = { name: "", url: "", price: null };
   },
 
@@ -89,7 +88,7 @@ export default {
       this.modalOpen = !this.modalOpen;
     },
     openModalEdit(item) {
-      this.currentUser = item;
+      this.currentItem = item;
       this.modalOpen = !this.modalOpen;
     }
   }

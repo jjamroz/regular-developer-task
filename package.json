@@ -4,8 +4,8 @@
   "author": "KODA Bots",
   "private": true,
   "scripts": {
-    "front:develop": "NODE_ENV=development vue-cli-service serve",
-    "front:build": "NODE_ENV=production vue-cli-service build",
+    "front:develop": "SET NODE_ENV=development & vue-cli-service serve",
+    "front:build": "SET NODE_ENV=production & vue-cli-service build",
     "server:build": "tsc",
     "server:watch": "tsc --watch",
     "server:start": "tsc && node dist/server/server.js",
