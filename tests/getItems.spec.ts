@@ -1,5 +1,5 @@
 var request = require('supertest');
-import * as DatabaseProviderClass from '../server/database';
+import * as DatabaseProviderClass from '../server/DatabaseProvider';
 import { MockDatabaseProvider } from './mocks/MockDatabase';
 var sinon = require('sinon');
 import * as assert from 'assert';

@@ -1,5 +1,4 @@
-import { IDatabaseProvider, DatabaseProvider } from '../../server/database';
-import * as mysql from 'mysql';
+import { IDatabaseProvider } from '../../server/DatabaseProvider';
 
 export class MockDatabaseProvider implements IDatabaseProvider {
   public database: any = {};

@@ -1,6 +1,6 @@
 import * as express from 'express';
-import { DatabaseProvider } from './../database';
-import { ProductBody } from '../validators/ProductValidator';
+import { DatabaseProvider } from '../DatabaseProvider';
+import { IProductBody } from '../validators/ProductValidator';
 const db = new DatabaseProvider();
 
 interface IProduct {
@@ -48,7 +48,7 @@ export class ProductsController {
   }
 
   static addItem(req: express.Request, res: express.Response) {
-    const item: ProductBody = req.body;
+    const item: IProductBody = req.body;
     return db
       .addItem('products', item)
       .then((data: IProduct) => {
@@ -60,7 +60,7 @@ export class ProductsController {
   }
 
   static updateItem(req: express.Request, res: express.Response) {
-    const item: ProductBody = req.body;
+    const item: IProductBody = req.body;
     return db
       .updateItem('products', req.params.id, item)
       .then((data: IProduct) => {

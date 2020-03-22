@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { body, param, validationResult, oneOf } from 'express-validator';
 
-export interface ProductBody {
+export interface IProductBody {
   name?: string;
   url?: string;
   prize?: number;
@@ -68,8 +68,8 @@ export class ProductValidator {
   };
 }
 
-const mapToProductBody = (body: any): ProductBody => {
-  const product: ProductBody = {};
+const mapToProductBody = (body: any): IProductBody => {
+  const product: IProductBody = {};
   const { name, url, prize } = body;
   if (name) product.name = name;
   if (url) product.url = url;

@@ -1,6 +1,5 @@
 import * as mysql from 'mysql';
 import * as _ from 'underscore';
-import { ProductBody } from './validators/ProductValidator';
 
 export interface IDatabaseProvider {
   get(table: string): Promise<Object>;
@@ -15,11 +14,11 @@ export class DatabaseProvider implements IDatabaseProvider {
 
   constructor() {
     this.connection = mysql.createConnection({
-      host: 'localhost',
-      user: 'admin',
-      password: 'admin',
-      port: 3306,
-      database: 'test'
+      host: process.env.DBHOST || 'localhost',
+      user: process.env.DBUSER || 'admin',
+      password: process.env.DBPASSWORD || 'admin',
+      port: parseInt(process.env.PORT) || 3306,
+      database: process.env.DBNAME || 'test'
     });
 
     this.connection.connect(err => {
