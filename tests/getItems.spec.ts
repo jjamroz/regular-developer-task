@@ -29,12 +29,12 @@ const NOT_FULL_PRODUCT_WITH_FAKE_PROPERTY = {
 
 describe('API', function() {
   var server;
-  var mockedDatabase;
+  var mockedDatabase: sinon.SinonStub;
 
   before(function() {
     mockedDatabase = sinon
       .stub(DatabaseProviderClass, 'DatabaseProvider')
-      .callsFake(args => {
+      .callsFake(function() {
         return new MockDatabaseProvider({
           products: MOCK_PRODUCTS
         });
@@ -110,7 +110,6 @@ describe('API', function() {
       .expect(400)
       .then(response => {
         const errors = response.body.errors;
-        console.log(errors);
         assert.deepEqual(errors.length, 3);
         assert.deepEqual(errors[0], {
           msg: 'name is required',
@@ -138,7 +137,6 @@ describe('API', function() {
       .expect(400)
       .then(response => {
         const errors = response.body.errors;
-        console.log(errors);
         assert.deepEqual(errors.length, 3);
         assert.deepEqual(errors[0], {
           value: '',
@@ -173,18 +171,45 @@ describe('API', function() {
       });
   });
 
-  it('should add one product - more properties', function testSlash(done) {
+  it('should not patch one product - id not a number', function testSlash(done) {
     request(server)
-      .post('/products/')
+      .patch('/products/aaa')
       .send({
-        name: 'product',
+        name: 'product123',
         url: 'google.com',
-        prize: 500.0,
-        illegalProperty: 'DO NOT ADD'
+        prize: 500.0
       })
+      .expect(400)
+      .then(response => {
+        const errors = response.body.errors;
+        assert.deepEqual(errors.length, 1);
+        assert.deepEqual(errors[0], ID_VALIDATION_ERROR);
+        done();
+      });
+  });
+
+  it('should not patch one product - wrong propertues', function testSlash(done) {
+    request(server)
+      .patch('/products/1')
+      .send({ wrongProperty: 'wrongProperty' })
+      .expect(400)
+      .then(response => {
+        const errors = response.body.errors;
+        assert.deepEqual(errors.length, 1);
+        assert.deepEqual(
+          errors[0].msg,
+          'at least one of following params is required: name, url, prize'
+        );
+        done();
+      });
+  });
+
+  it('should patch one product', function testSlash(done) {
+    request(server)
+      .get('/products/1')
+      .send({ name: 'valid name' })
       .expect(200)
       .then(response => {
-        mockedDatabase.getCall();
         assert.deepEqual(response.body, MOCK_PRODUCTS[0]);
         done();
       });

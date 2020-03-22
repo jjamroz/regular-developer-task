@@ -1,64 +1,97 @@
 <template>
-    <div id="all-items">
-        <h1>Products</h1>
-
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <td>ID</td>
-                <td>Name</td>
-                <td>Url</td>
-                <td>Prize</td>
-            </tr>
-            </thead>
-
-            <tbody>
-                <tr v-for="item in items" v-bind:key="item.id">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.url }}</td>
-                    <td>{{ item.prize }}zł</td>
-                </tr>
-            </tbody>
-        </table>
+  <div id="all-items">
+    <h1>Products</h1>
+    <div>
+      <button v-on:click="openModalAdd()">Open Modal</button>
+      <Modal :modalOpen="modalOpen"></Modal>
     </div>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <td>ID</td>
+          <td>Name</td>
+          <td>Url</td>
+          <td>Prize</td>
+          <td>Actions</td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr v-for="item in items" v-bind:key="item.id">
+          <td>{{ item.id }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.url }}</td>
+          <td>{{ item.prize }}zł</td>
+          <td>
+            <button v-on:click="deleteProduct(item.id)">DELETE</button>
+            <button v-on:click="openModalEdit(item)">EDIT</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <style>
-    body {
-        background: #F5F5F5;
-        color: #333;
-    }
+body {
+  background: #f5f5f5;
+  color: #333;
+}
 
-    #page {
-        background: #FFF;
-        padding: 3rem;
-    }
+#page {
+  background: #fff;
+  padding: 3rem;
+}
 </style>
 
 <script>
+import Modal from "./Modal.vue";
 
-    export default{
-        data(){
-            return{
-                items: [],
-            }
+export default {
+  components: {
+    Modal
+  },
+
+  data() {
+    return {
+      modalOpen: false,
+      currentItem: { name: "", url: "", price: null },
+      items: []
+    };
+  },
+
+  created: function() {
+    this.fetchProductData();
+
+    this.currentItem = { name: "", url: "", price: null };
+  },
+
+  methods: {
+    fetchProductData: function() {
+      this.$http.get("http://localhost:3000/products").then(
+        response => {
+          this.items = response.body;
         },
-
-        created: function()
-        {
-            this.fetchProductData();
-        },
-
-        methods: {
-            fetchProductData: function()
-            {
-                this.$http.get('http://localhost:3000/products').then((response) => {
-                    this.items = response.body;
-                }, (response) => {
-                    console.log(response);
-                });
-            }
+        response => {
+          console.log(response);
         }
+      );
+    },
+    deleteProduct: function(id) {
+      this.$http.delete(`http://localhost:3000/products/${id}`).then(() => {
+        this.items = this.items.filter(item => {
+          return item.id !== id;
+        });
+      });
+    },
+    openModalAdd() {
+      this.modalOpen = !this.modalOpen;
+    },
+    openModalEdit(item) {
+      this.currentUser = item;
+      this.modalOpen = !this.modalOpen;
     }
+  }
+};
 </script>
