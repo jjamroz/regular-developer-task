@@ -25,20 +25,21 @@ export class ProductValidator {
     return [
       param('id', 'Id needs to be a number!')
         .exists()
+        .bail()
         .isInt()
     ];
   };
 
   static addUserValidationRules = () => {
     return [
-      body('name', 'name is required')
+      body('name', 'name is required').notEmpty(),
+      body('url', 'url is required and has to be an URL')
         .notEmpty()
-        .isString(),
-      body('url', 'url is required')
-        .notEmpty()
+        .bail()
         .isURL(),
-      body('prize', 'prize is required')
+      body('prize', 'prize is required and has to be decimal')
         .exists()
+        .bail()
         .isDecimal(),
       body().customSanitizer(body => mapToProductBody(body))
     ];
@@ -46,9 +47,7 @@ export class ProductValidator {
 
   static updateUserValidationRules = () => {
     return [
-      param('id', 'Id needs to be a number!')
-        .exists()
-        .isInt(),
+      param('id', 'Id needs to be a number!').isInt(),
       oneOf(
         [body('name').exists(), body('url').exists(), body('prize').exists()],
         'at least one of following params is required: name, url, prize'

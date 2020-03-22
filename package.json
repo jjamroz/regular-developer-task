@@ -9,7 +9,7 @@
     "server:build": "tsc",
     "server:watch": "tsc --watch",
     "server:start": "tsc && node dist/server/server.js",
-    "server:test": "tsc; mocha -R spec dist/tests/*.spec.js"
+    "server:test": "mocha -R spec dist/tests/*.spec.js"
   },
   "dependencies": {
     "@types/express": "^4.17.3",
